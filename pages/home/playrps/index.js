@@ -224,11 +224,8 @@ function PlayRPS() {
           status={status}
           statusClass={statusClass}
           comRock={comRock}
-          comRockClick={comRockClick}
           comPaper={comPaper}
-          comPaperClick={comPaperClick}
           comScissors={comScissors}
-          comScissorsClick={comScissorsClick}
           unlock={unlock}
         />
         <div className={style.score}>
