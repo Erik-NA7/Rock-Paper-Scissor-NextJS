@@ -1,0 +1,43 @@
+{
+  "name": "next-layout",
+  "version": "0.1.0",
+  "private": true,
+  "engines": {
+    "node": "v14.17.5"
+  },
+  "scripts": {
+    "dev": "env-cmd -f .env.build next dev",
+    "build": "env-cmd -f .env.build next build",
+    "start": "next start",
+    "lint": "next lint",
+    "test": "jest --detectOpenHandles"
+  },
+  "dependencies": {
+    "@loadable/component": "^5.15.0",
+    "cloudinary-core": "^2.11.4",
+    "cloudinary-react": "^1.7.0",
+    "env-cmd": "^10.1.0",
+    "firebase": "^8.8.1",
+    "js-cookie": "^3.0.0",
+    "next": "11.0.1",
+    "next-images": "^1.8.1",
+    "react": "17.0.2",
+    "react-dom": "17.0.2",
+    "react-dropdown": "^1.9.2",
+    "react-dropzone": "^11.3.4",
+    "react-icons": "^4.2.0",
+    "react-placeholder-image": "^0.1.8",
+    "swr": "^0.5.6"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^5.14.1",
+    "@testing-library/react": "^12.0.0",
+    "babel-jest": "^27.1.0",
+    "babel-plugin-styled-components": "^1.13.2",
+    "eslint": "7.32.0",
+    "eslint-config-next": "11.0.1",
+    "identity-obj-proxy": "^3.0.0",
+    "jest": "^27.1.0",
+    "react-test-renderer": "^17.0.2"
+  }
+}

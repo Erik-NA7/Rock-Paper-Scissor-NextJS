@@ -1,0 +1,207 @@
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: "Rubik", sans-serif;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100vh;
+  background-image: url(https://res.cloudinary.com/erikna7/image/upload/v1630144854/rps-next/bg2_rtrgk0.jpg);
+  background-size: cover;
+  background-position:top;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+:root {
+  --main-color: #ffc107
+}
+
+button {
+  background-color: var(--main-color);
+  color: black;
+  outline: none;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  padding: 15px 32px;
+}
+
+button:hover {
+  transition: all 0.2s ease-in-out;
+  background-color: white;
+}
+
+h1, h2, h3 {
+  text-align: center;
+  color: #ffc107;
+  font-weight: 700;
+}
+
+a {
+  text-decoration: none;
+}
+
+.homeContainer {
+  width: 100%;
+  height: max-content;
+  display: flex;
+  justify-content: center;
+  border-style: none;
+}
+
+.homeWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  height: max-content;
+  width: 900px;
+  margin: 100px 0 20px 0;
+  padding: 20px;
+  align-items: center;
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.6);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(3px);
+  animation: fadein .8s;
+}
+
+@keyframes fadein {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.homeNavbar {
+  z-index: 10;
+  position: fixed;
+  width: 100%;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.85);
+}
+
+.userhud {
+  height: 80px;
+  width: auto;
+  padding: 0 10px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  color: white;
+}
+
+.navIconProfile {
+  display: flex;
+  height: 100%;
+  justify-content: flex-end;
+  align-items: center;
+  color: white;
+}
+
+.navIconProfile:hover {
+  color: #ffc107;
+  cursor: pointer;
+}
+
+.navIconProfile:hover .sidebar {
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar {
+  display: none;
+  width: 180px;
+  height: calc(100% - 80px); 
+  background: rgba(0, 0, 0, 0.85);  
+  position: fixed;
+  top: 80px;
+  left: 0;
+  z-index: 100;
+  animation: slide-right .8s;
+}
+
+@keyframes slide-right {
+  from {
+    left: -180px;
+  }
+  to {
+    left: 0;
+  }
+}
+
+.sidebarItem {
+  display: flex;
+  color: #e1e9fc;
+  align-items: center;
+  padding-left: 10px;
+  list-style: none;
+  flex-grow: 1;
+  font-size: 1rem;
+}
+
+.sidebarItem:hover {
+  background: #252831;
+  border-left: 4px solid #ffc107;
+  cursor: pointer;
+  color: #ffc107;
+  text-decoration-line: none;
+}
+
+.sidebarIcon {
+  margin-right: 0.5rem;
+  color: #ffc107;
+}
+
+.home-welcome {
+  height: calc(100vh - 160px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.homeWrapper h2 {
+  margin: 16px 0;
+}
+
+.homeWrapper h3 {
+  color: #ffc107 !important;
+  font-weight: bold;
+  margin: 0;
+}
+
+.homeWrapper h3 {
+  color: #ffffff;
+}
+
+.totalScores {
+  color: #ffc107;
+  font-weight: 500;
+  padding-left: 5px;
+}
+
+@media screen and (max-width: 1024px) {
+  .homeWrapper {
+    width: 100%;
+    margin: 100px 10px 20px 10px;
+  }
+}
+
+@media screen and (max-width: 540px) {
+  .homeWrapper h2 {
+    font-size: 1.2rem;
+  }
+}
+
+@media screen and (max-width: 414px) {
+  .rps-logo {
+    width: 48px !important;
+    height: auto;
+  }
+}

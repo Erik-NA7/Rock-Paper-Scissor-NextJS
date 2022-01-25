@@ -1,0 +1,154 @@
+.editProfile {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.profileForm {
+  margin: 10px 0px;
+  display: flex;
+  flex-direction: column;
+  width: 48%;
+  height: auto;
+  justify-content: flex-start;
+}
+
+.editProfile label {
+  font-size: .8rem;
+  color: #fff;
+  font-family: "Rubik", sans-serif;
+  text-align:start;
+  margin-bottom: 0;
+  width: 100%;
+  display: inline-block;
+}
+
+.editfieldContainer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  margin: 0 0 10px 0;
+}
+
+.editfieldContainer input {
+  padding: 10px 10px;
+  width: 73%;
+  height: 20px;
+  margin: 5px 0px 5px 0;
+  border: none;
+  border-radius: 10px;
+  font-family: "Rubik", sans-serif;
+  font-size: .8rem;
+  font-weight: 500;
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+.editfieldContainer p {
+  color: var(--main-color);
+  font-size: .8rem;
+  width: 73%;
+  margin: 0;
+}
+
+.dropContainer {
+  width: 48%;
+  margin: 10px 0;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.profileForm button, .finishEdit, .savebtn {
+  border-radius: 5px;
+  padding: 6px 12px;
+  font-size: .8rem;
+}
+
+.finishEdit {
+  align-self: flex-start;
+  width: auto;
+}
+
+.avatarPlaceHolder {
+  height: 100px;
+  width: 100px;
+}
+
+.dropContainer label {
+  font-size: .8rem;
+  color: #fff;
+  margin-bottom: 0;
+  display: inline-block;
+}
+
+.dropzone {
+  width: 300px;
+  height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px dashed #8b8b8b;
+  font-size: 1rem;
+  color: aliceblue;
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+
+.avatar-handler {
+  max-width: 250px;
+  height: 60px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.select-img-btn {
+  width: 65px !important;
+  border-radius: 5px;
+  padding: 6px 12px;
+  background-color:#ffc107;
+  color: black !important;
+  cursor: pointer;
+}
+
+.dropContainer p {
+  margin: 5px 0;
+  font-size: .8rem;
+  color: white;
+  padding: 0 5px;
+}
+
+.file-input {
+  visibility: hidden;
+}
+
+.active {
+  border: 1px solid #ffc107;
+}
+
+@media screen and (max-width: 700px) {
+  .editProfile {
+    flex-direction: column;
+    width: auto;
+  }
+
+  .profileForm, .dropContainer, .editfieldContainer input {
+    width: 100%;
+  }
+
+  .finishEdit {
+    align-self: unset;
+  }
+}
+
+@media screen and (max-width: 414px) {
+  .dropzone, .avatar-handler {
+    max-width: 230px;
+    max-height: 230px;
+  }
+}
