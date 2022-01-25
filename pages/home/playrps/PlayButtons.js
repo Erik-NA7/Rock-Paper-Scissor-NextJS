@@ -12,11 +12,8 @@ function PlayButtons(props) {
     status,
     statusClass,
     comRock,
-    comRockClick,
     comPaper,
-    comPaperClick,
     comScissors,
-    comScissorsClick,
     unlock,
    } = props
 
@@ -49,15 +46,15 @@ function PlayButtons(props) {
       <div className={style["play-buttons-container"]}>
         <h3>COM</h3>                       
         <div className={style.option}>                      
-          <div name="Rock" className={`${comRock} ${style.rock}`} disabled onClick={comRockClick}>
+          <div name="Rock" className={`${comRock} ${style.rock}`} disabled>
           </div>
         </div>
         <div className={style.option}>                      
-          <div name="Paper" className={`${comPaper} ${style.paper}`} disabled onClick={comPaperClick}>
+          <div name="Paper" className={`${comPaper} ${style.paper}`} disabled>
           </div>
         </div>
         <div className={style.option}>                      
-          <div name="Scissors" className={`${comScissors} ${style.scissors}`} disabled onClick={comScissorsClick}>
+          <div name="Scissors" className={`${comScissors} ${style.scissors}`} disabled>
           </div>
         </div>
       </div>
