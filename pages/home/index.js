@@ -1,13 +1,10 @@
 import React from "react";
 import HomeLayout from "./HomeLayout";
 import cookie from "js-cookie";
-import useSWR from "swr";
-
-const getData = async (url) => cookie.get(url);
+import { useSelector } from "react-redux";
 
 function Home() {
-  const { data } = useSWR("profile", getData)
-  const user = data ? JSON.parse(data) : null
+  const userRedux = useSelector(state => state.auth)
 
   const GameHistory = () => {
     const lastGame = cookie.get("lastGame")
@@ -20,10 +17,11 @@ function Home() {
     }
   }
 
+  console.log('daristore', userRedux)
   return (
       <div className="homeWrapper">
         <div className="home-welcome">
-          { user ? (<h2>Welcome, {user.username}</h2>) 
+          { userRedux.isAuthenticated ? (<h2>Welcome, {userRedux.username}</h2>) 
           : (<h2>Welcome, Visitor</h2>)}
           <GameHistory/>
         </div>

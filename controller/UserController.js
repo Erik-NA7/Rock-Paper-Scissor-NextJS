@@ -1,5 +1,6 @@
 import fire from "./firebase";
 import cookie from "js-cookie";
+import { useDispatch } from "react-redux";
 
 const fireAuth = fire.auth();
 const fireDb = fire.database();
@@ -34,13 +35,15 @@ const UserController = {
   },
 
   getProfile: async (username) => {
-    return fireDb.ref("users/" + username).on("value", (snapshot) => {
+    const dispatch = useDispatch()
+    fireDb.ref("users/" + username).on("value", (snapshot) => {
       return Promise.resolve(
-        cookie.set(
-          "profile",
-          JSON.stringify(snapshot.val()),
-          { path: "/" }
-        )
+        dispatch(JSON.stringify(snapshot.val()))
+        // cookie.set(
+        //   "profile",
+        //   JSON.stringify(snapshot.val()),
+        //   { path: "/" }
+        // )
       );
     })
   },
