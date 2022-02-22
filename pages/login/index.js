@@ -4,8 +4,13 @@ import style from "./Authpage.module.css";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import cookie from "js-cookie";
+import { useSelector, useDispatch } from "react-redux";
+import { authActions } from "../../store/auth";
+import firebase from "../../controller/firebase";
 
 function Login() {
+  const userredux = useSelector(state => state.auth)
+  const dispatch = useDispatch()
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
@@ -13,21 +18,26 @@ function Login() {
   const handleLogin = async () => {
     try {
       const { user } = await User.logIn(email, password);
-      console.log(user)
       if (!user.displayName) {
         cookie.set("email", email, {path: "/"})
         alert("Please update your profile")
         router.push("/home/createprofile")
       } else {
-        await User.getProfile(user.displayName)
-        .then(() => {
-          setTimeout(async () => { 
-            router.push("/home")
-          }, 1000);          
-        });
-      }
+        // await User.getProfile(user.displayName)
+        firebase.database().ref("users/" + user.displayName).on("value", (snapshot) => {
+          const userfb = snapshot.val()
+          dispatch(authActions.login(userfb))
+            // cookie.set(
+            //   "profile",
+            //   JSON.stringify(snapshot.val()),
+            //   { path: "/" }
+            // )
+          router.push("/home")
+        }) 
+       }
     } catch (err) {
-      alert(err.message);
+      console.log(err.message)
+      // alert(err.message);
     }
   };
 
