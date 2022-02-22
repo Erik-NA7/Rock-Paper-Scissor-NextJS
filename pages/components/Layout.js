@@ -1,24 +1,21 @@
-import Sidebar from "../components/Sidebar";
+import Sidebar from "./Sidebar";
 import User from "../../controller/UserController";
 import cookie from "js-cookie";
-import useSWR from "swr";
 import { CgProfile } from "react-icons/cg";
 import { RiArrowDownSFill } from "react-icons/ri";
 import { useRouter } from "next/router";
+import { useSelector, useDispatch } from "react-redux";
+import { authActions } from "../../store/auth";
 
-const getData = async (url) => cookie.get(url)
 
 function HomeLayout({ children }) {
-  const { data } = useSWR("profile", getData)
   const router = useRouter();
-  const user = data ? JSON.parse(data) : {
-    username: "Visitor",
-    total_score: 0
-  };
+  const user = useSelector(state => state.auth)
+  const dispatch = useDispatch()
   
   const logout = async () => {
-    await User.logOut()
-    .then(() => router.push("/"))
+    dispatch(authActions.logout());
+    router.push("/")
   }
 
   return (

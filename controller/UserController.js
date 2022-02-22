@@ -34,14 +34,8 @@ const UserController = {
   },
 
   getProfile: async (username) => {
-    return fireDb.ref("users/" + username).on("value", (snapshot) => {
-      return Promise.resolve(
-        cookie.set(
-          "profile",
-          JSON.stringify(snapshot.val()),
-          { path: "/" }
-        )
-      );
+    fireDb.ref("users/" + username).on("value", (snapshot) => {
+      return snapshot.val()
     })
   },
 
