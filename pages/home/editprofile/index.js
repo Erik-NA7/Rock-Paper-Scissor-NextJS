@@ -2,20 +2,18 @@ import { useState, useRef, useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 import Link from "next/link";
 import cookie from "js-cookie";
-import User from "../../../controller/UserController";
 import router from "next/router";
-import useSWR from "swr";
-import HomeLayout from "../HomeLayout";
+import Layout from "../../components/Layout";
 import style from "./Editprofile.module.css";
-
-const getData = async (url) => cookie.get(url);
+import { useSelector } from "react-redux";
 
 function EditProfile() {
-  const { data } = useSWR("profile", getData);
-  let user = data ? JSON.parse(data) : "";
+  const user = useSelector(state => state.auth) || sessionStorage.getItem("user") 
   
   const [ profile, setProfile ] = useState(user)
+  
   const [ isLoading, setIsLoading ] = useState(false)
+  
   const fileInput = useRef(null);
 
   const handleNameChange = (e) => {
@@ -170,6 +168,6 @@ function EditProfile() {
   );
 }
 
-EditProfile.Layout = HomeLayout;
+EditProfile.Layout = Layout;
 
 export default EditProfile;

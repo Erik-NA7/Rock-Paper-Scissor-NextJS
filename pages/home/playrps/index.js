@@ -1,25 +1,44 @@
-import HomeLayout from "../HomeLayout";
-import React, { useEffect, useState } from "react";
+import Layout from "../../components/Layout";
+import React, { useState } from "react";
 import PlayButtons from "./PlayButtons";
-import { comPlay, Result, updateScore } from "../../../controller/GameController"
+import { comPlay, Result } from "../../../controller/GameController"
 import cookie from "js-cookie";
-import useSWR from "swr";
 import Link from "next/link";
 import Image from "next/image";
+import firebase from "../../../controller/firebase";
+import { useSelector, useDispatch } from "react-redux";
+import { authActions } from "../../../store/auth";
 import style from "./PlayRPS.module.css";
-
-
-const getData = (url) => cookie.get(url)
+// import firebase from "../../../controller/firebase";
 
 
 function PlayRPS() {
-  const { data } = useSWR("profile", getData);
+  const user = useSelector(state => state.auth) || sessionStorage.getItem("user") 
+  const dispatch = useDispatch()
+  const updateTotalScore = async (username, score) => {
+    const res = fetch(
+      `https://react-crud-12e9f-default-rtdb.firebaseio.com/users/${username}.json`,
+      {
+        method: 'PATCH',
+        body: JSON.stringify({total_score: score}),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }
+    )
+    console.log(res)
+    
+    // firebase.database().ref("users/" + username).update({ 'total_score': total_score })
+    // .then(() => {
+      // dispatch(authActions.addTotalScore(total_score)); 
+    // })
+  }
   const playerButton = style["player-button"];
   const comButton = style["com-button"];
+  cookie.set('total_score', totalScore)
 
   // Player scoreboard
-  const [ username, setUsername ] = useState("");
-  const [ avatar, setAvatar ] = useState("")
+  const [ avatar, setAvatar ] = useState("");
   const [ totalScore, setTotalScore ] = useState(0);
   const [ winStreak, setWinStreak ] = useState(0)
   const [ points, setPoints ] = useState(0)
@@ -92,7 +111,11 @@ function PlayRPS() {
     pointsThisRound = 1000 + extraPoints;
     setPoints(pointsThisRound);
     setTotalScore(totalScore + pointsThisRound);
-    updateScore(username, totalScore + pointsThisRound);
+    updateTotalScore(user.username, totalScore + pointsThisRound);
+    // dispatch(authActions.addTotalScore(totalScore + pointsThisRound)); 
+    // updateScore(user.username, totalScore + pointsThisRound).then(
+    //   addScore(authActions.addTotalScore(pointsThisRound))
+    // )
   }
 
   const addComScore = () => {
@@ -177,26 +200,14 @@ function PlayRPS() {
   }
 
   const quitButton = () => {
-    const user = JSON.parse(data);
-    if (user.total_score != totalScore ) {
-    cookie.set(
-      "lastGame",
-      (totalScore - user.total_score),
-      { path: "/"}
-    )
-    user.total_score = totalScore
-    cookie.set("profile", JSON.stringify(user)) 
+    // const user = JSON.parse(data);
+    const initialTotalScore = cookie.get("total_score")
+    if (user.total_score != initialTotalScore ) {
+      cookie.set( "lastGame", user.total_score - initialTotalScore,
+        { path: "/"}
+      )
     }
   }
-
-  useEffect(() => {
-    const user = data ? JSON.parse(data) : null
-    if (user) {
-      setTotalScore(user.total_score);
-      setUsername(user.username);
-      setAvatar(user.avatar)
-    }
-  }, [data, avatar])
 
   return (
     <div className="homeWrapper">
@@ -204,7 +215,7 @@ function PlayRPS() {
       <h3>ROCK PAPER SCISSORS</h3>
       <div className={style.gameboard}>
         <div className={style.score}>
-          { avatar? (
+          { avatar ? (
           <div>
             <Image src={avatar} width={60} height={60} alt="avatar"/>
           </div>) : (
@@ -214,7 +225,7 @@ function PlayRPS() {
           <p className={style["score-label"]}>Win Streak: {winStreak}</p>
         </div>
         <PlayButtons
-          username={username}
+          username={user.username}
           plRock={plRock}
           plRockClick={plRockClick}
           plPaper={plPaper}
@@ -247,6 +258,6 @@ function PlayRPS() {
   )
 }
 
-PlayRPS.Layout = HomeLayout;
+PlayRPS.Layout = Layout;
 
 export default PlayRPS;

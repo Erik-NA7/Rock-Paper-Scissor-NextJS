@@ -1,4 +1,4 @@
-import HomeLayout from "../HomeLayout";
+import Layout from "../../components/Layout";
 import style from "../Table.module.css";
 import fire from "../../../controller/firebase"
 
@@ -43,7 +43,7 @@ function Leaderboard({ scores }) {
   );
 }
 
-Leaderboard.Layout = HomeLayout;
+Leaderboard.Layout = Layout;
 
 export async function getServerSideProps() {
   const data = []

@@ -1,4 +1,4 @@
-import HomeLayout from "../HomeLayout";
+import Layout from "../../components/Layout";
 import style from "../Table.module.css";
 import fire from "../../../controller/firebase";
 
@@ -33,7 +33,7 @@ function Players({ users }) {
   );
 }
 
-Players.Layout = HomeLayout;
+Players.Layout = Layout;
 
 export async function getServerSideProps() {
   const data = []

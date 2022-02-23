@@ -27,6 +27,10 @@ function Login() {
         firebase.database().ref("users/" + user.displayName).on("value", (snapshot) => {
           const userfb = snapshot.val()
           dispatch(authActions.login(userfb))
+          sessionStorage.setItem("user", JSON.stringify({
+            ...userfb,
+            isAuthenticated: true
+          }))
             // cookie.set(
             //   "profile",
             //   JSON.stringify(snapshot.val()),

@@ -1,22 +1,17 @@
-import HomeLayout from "../HomeLayout";
-import style from "./Gamelist.module.css";
-import cookie from "js-cookie";
+import Layout from "../../components/Layout";
 import { useRouter } from "next/router";
-import useSWR from "swr";
-import fire from "../../../controller/firebase"
-
-const getData = (url) => cookie.get(url)
+import { useSelector } from "react-redux";
+import fire from "../../../controller/firebase";
+import style from "./Gamelist.module.css";
 
 function GameList({ games }) {
   const router = useRouter()
-  const { data } = useSWR("profile", getData)
-  const user = data ? JSON.parse(data) : null
+  const user = useSelector(state => state.auth)
   const playgame = () => {
-    if (!user) {
+    if (!user.isAuthenticated) {
       alert("Login to play")
       router.push("/login")
-    }
-    if (user) {
+    } else {
       router.push("/home/playrps")
     }
   }
@@ -41,7 +36,7 @@ function GameList({ games }) {
   );
 }
 
-GameList.Layout = HomeLayout;
+GameList.Layout = Layout;
 
 export async function getServerSideProps() {
   const data = []

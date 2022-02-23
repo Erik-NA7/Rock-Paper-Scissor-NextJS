@@ -5,7 +5,10 @@ import "../styles/globals.css";
 
 
 const MyApp = ({ Component, pageProps }) => {
-  const Layout = Component.Layout || EmptyLayout;
+  
+  const NoLayout = ({ children }) => <>{children}</>;
+  const Layout = Component.Layout || NoLayout;
+    
   return (
     <Provider store={store}>
       <Head>
@@ -19,7 +22,5 @@ const MyApp = ({ Component, pageProps }) => {
     </Provider>
   );
 };
-
-const EmptyLayout = ({ children }) => <>{children}</>;
 
 export default MyApp;

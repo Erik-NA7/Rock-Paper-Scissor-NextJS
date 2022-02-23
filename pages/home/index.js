@@ -1,10 +1,15 @@
-import React from "react";
-import HomeLayout from "./HomeLayout";
+import { useEffect } from "react";
+import Layout from "../components/Layout";
 import cookie from "js-cookie";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { authActions } from "../../store/auth";
 
 function Home() {
-  const userRedux = useSelector(state => state.auth)
+  const dispatch = useDispatch()
+  const fromStore =  useSelector(state => state.auth);
+  const fromSession = typeof window !== 'undefined' ? sessionStorage.getItem("user") : null
+
+  const user = fromSession ? JSON.parse(fromSession) : fromStore;
 
   const GameHistory = () => {
     const lastGame = cookie.get("lastGame")
@@ -17,18 +22,25 @@ function Home() {
     }
   }
 
-  console.log('daristore', userRedux)
+  useEffect(() => {
+    if (fromSession && !fromStore) {
+      dispatch(authActions.login(fromSession))
+    }
+  }, [])
+  
+
+  console.log(user)
   return (
-      <div className="homeWrapper">
-        <div className="home-welcome">
-          { userRedux.isAuthenticated ? (<h2>Welcome, {userRedux.username}</h2>) 
-          : (<h2>Welcome, Visitor</h2>)}
-          <GameHistory/>
-        </div>
+    <div className="homeWrapper">
+      <div className="home-welcome">
+        { user.isAuthenticated ? (<h2>Welcome, {user.username}</h2>) 
+        : (<h2>Welcome, Visitor</h2>)}
+        <GameHistory/>
       </div>
+    </div>
   );
 }
 
-Home.Layout = HomeLayout;
+Home.Layout = Layout;
 
 export default Home;

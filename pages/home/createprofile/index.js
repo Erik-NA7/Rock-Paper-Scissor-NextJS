@@ -3,7 +3,7 @@ import { useDropzone } from "react-dropzone";
 import cookie from "js-cookie";
 import User from "../../../controller/UserController";
 import router from "next/router";
-import HomeLayout from "../HomeLayout";
+import Layout from "../../components/Layout";
 import style from "../editprofile/Editprofile.module.css";
 
 function CreateProfile() {
@@ -215,6 +215,6 @@ function CreateProfile() {
   );
 }
 
-CreateProfile.Layout = HomeLayout;
+CreateProfile.Layout = Layout;
 
 export default CreateProfile;

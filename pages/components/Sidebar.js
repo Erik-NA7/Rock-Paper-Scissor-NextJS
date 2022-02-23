@@ -1,4 +1,3 @@
-import { useRouter } from "next/router";
 import Link from "next/link";
 import { IoGameController } from "react-icons/io5";
 import {
@@ -9,18 +8,6 @@ import {
   RiLogoutCircleLine } from "react-icons/ri";
 
 function Sidebar(props) {
-  
-  const router = useRouter()
-
-  const toEditProfile = () => {
-    if (props.user.username === "Visitor") {
-      alert("Log in to edit your profile")
-      router.push("/login")
-    } else {
-      router.push("/home/editprofile")
-    }
-  }
-
   return (
     <div className="sidebar">
       <Link href="/home" passHref>
@@ -28,7 +15,7 @@ function Sidebar(props) {
           Home
         </a>
       </Link>
-      <a className="sidebarItem" onClick={toEditProfile}>
+      <a className="sidebarItem" onClick={props.toPrivateLink}>
         <RiEditCircleFill className="sidebarIcon" />
         Edit Profile
       </a>
