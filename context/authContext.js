@@ -5,6 +5,7 @@ import Cookies from "js-cookie";
 const UserContext = createContext({});
 
 export default function UserContextProvider({ children }) {
+  const fromCookies = Cookies.get("profile");
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState({
     username: '',
@@ -14,7 +15,9 @@ export default function UserContextProvider({ children }) {
     total_score: 0
   })
 
-  const contextLogin = (data) => {
+  const contextLogin = () => {
+    const fromCookies = Cookies.get("profile");
+    const data = JSON.parse(fromCookies)
     setIsAuthenticated(true);
     setUser({
       username: data.username,
@@ -36,8 +39,6 @@ export default function UserContextProvider({ children }) {
     });
   };
 
- 
-
   const updateTotalScore = (score) => {
     const updated = {
       ...user,
@@ -46,14 +47,10 @@ export default function UserContextProvider({ children }) {
     Cookies.set("profile", JSON.stringify(updated));
   }
 
-  const fromCookies = Cookies.get("profile")
-
   useEffect(() => {
     function loadUserFromCookies(profile) {
       if (profile) {
-        const user = JSON.parse(profile)
-        console.log('user from cookies', user)
-        contextLogin(user);
+        contextLogin();
       } else {
         contextLogout();
       }

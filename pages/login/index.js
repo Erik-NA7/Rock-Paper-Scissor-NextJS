@@ -4,13 +4,13 @@ import style from "./Authpage.module.css";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import cookie from "js-cookie";
-// import { useAuth } from "../context/authContext";
+import { useAuth } from "../../context/authContext";
 
 function Login() {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  // const { contextLogin } = useAuth();
+  const { isAuthenticated, contextLogin } = useAuth();
 
   const handleLogin = async () => {
     try {
@@ -22,10 +22,13 @@ function Login() {
       } else {
         await User.getProfile(user.displayName)
         .then(() => {
+          // contextLogin();       
           setTimeout(async () => { 
-            router.push("/home")
+          //   router.push("/home")
+            contextLogin();       
           }, 1000);          
-        });
+        })
+        .finally(() => router.push("/home"));
       }
     } catch (err) {
       alert(err.message);
@@ -39,7 +42,7 @@ function Login() {
   }
 
   return ( 
-    <div className={style.login} onKeyPress={keyHandler}>
+    <div className={style.login} onKeyDown={keyHandler}>
       <div className={style["login-form"]} data-testid="loginform">
         <h2>Login</h2>
         <label>Email</label>

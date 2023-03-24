@@ -102,8 +102,9 @@ const UserController = {
   // User logout
   logOut: async () => {
     cookie.remove("profile");
+    cookie.remove("email");
     cookie.remove("lastGame");
-    fireAuth.signOut()
+    fireAuth.signOut();
   },
 
   // Get all users profile

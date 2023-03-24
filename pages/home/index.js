@@ -6,7 +6,7 @@ import { useAuth } from "../../context/authContext";
 
 function Home() {
   
-  const [greeting, setGreeting ] = useState("");
+  const [ greeting, setGreeting ] = useState("");
   
   const { isAuthenticated, user } = useAuth(); 
   
@@ -30,12 +30,12 @@ function Home() {
   }, [isAuthenticated, user.username])
 
   return (
-      <div className="homeWrapper">
-        <div className="home-welcome">
-        <h2>Welcome, {greeting}</h2> 
-        <GameHistory/>
-        </div>
+    <div className="homeWrapper">
+      <div className="home-welcome">
+      <h2>Welcome, {greeting}</h2> 
+      <GameHistory/>
       </div>
+    </div>
   );
 }
 
