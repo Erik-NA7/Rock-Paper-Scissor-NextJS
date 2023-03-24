@@ -22,9 +22,7 @@ function Login() {
       } else {
         await User.getProfile(user.displayName)
         .then(() => {
-          // contextLogin();       
           setTimeout(async () => { 
-          //   router.push("/home")
             contextLogin();       
           }, 1000);          
         })

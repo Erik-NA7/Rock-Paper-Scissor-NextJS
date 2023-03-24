@@ -8,7 +8,7 @@ export default function UserContextProvider({ children }) {
   const fromCookies = Cookies.get("profile");
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState({
-    username: '',
+    username: 'Visitor',
     fullname: '',
     email: '',
     avatar: '',
@@ -31,7 +31,7 @@ export default function UserContextProvider({ children }) {
   const contextLogout = () => {
     setIsAuthenticated(false);
     setUser({
-      username: '',
+      username: 'Visitor',
       fullname: '',
       email: '',
       avatar: '',

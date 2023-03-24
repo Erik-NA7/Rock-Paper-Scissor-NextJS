@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import HomeLayout from "./HomeLayout";
 import cookie from "js-cookie";
 import { useAuth } from "../../context/authContext";
@@ -6,9 +5,7 @@ import { useAuth } from "../../context/authContext";
 
 function Home() {
   
-  const [ greeting, setGreeting ] = useState("");
-  
-  const { isAuthenticated, user } = useAuth(); 
+    const { user } = useAuth(); 
   
   const GameHistory = () => {
     const lastGame = cookie.get("lastGame")
@@ -21,18 +18,21 @@ function Home() {
     }
   }
 
-  useEffect(() => {
-    if (isAuthenticated) {
-      setGreeting(user.username);
-    } else {
-      setGreeting("Visitor");
-    }
-  }, [isAuthenticated, user.username])
+  if (!user) {
+    return (
+      <div className="homeWrapper">
+        <div className="home-welcome">
+        <h2>Syncing...</h2> 
+        <GameHistory/>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="homeWrapper">
       <div className="home-welcome">
-      <h2>Welcome, {greeting}</h2> 
+      { user && <h2>Welcome, {user.username}</h2> }
       <GameHistory/>
       </div>
     </div>
