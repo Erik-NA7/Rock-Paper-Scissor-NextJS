@@ -6,14 +6,18 @@ import {
   RiEditCircleFill,
   RiContactsLine,
   RiFileChartLine,
-  RiLogoutCircleLine } from "react-icons/ri";
+  RiLogoutCircleLine }
+from "react-icons/ri";
+import { useAuth } from "../context/authContext";
 
 function Sidebar(props) {
   
   const router = useRouter()
+  
+  const { isAuthenticated } = useAuth();
 
   const toEditProfile = () => {
-    if (props.user.username === "Visitor") {
+    if (!isAuthenticated) {
       alert("Log in to edit your profile")
       router.push("/login")
     } else {
@@ -50,7 +54,7 @@ function Sidebar(props) {
           Leaderboard
         </a>
       </Link>
-      { props.user ? (
+      { isAuthenticated ? (
         <a className="sidebarItem" onClick={props.onLogout}>
           <RiLogoutCircleLine className="sidebarIcon" />
           Logout

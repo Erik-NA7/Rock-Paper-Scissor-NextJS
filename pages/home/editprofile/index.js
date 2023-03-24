@@ -1,20 +1,16 @@
-import { useState, useRef, useCallback } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 import Link from "next/link";
 import cookie from "js-cookie";
 import User from "../../../controller/UserController";
 import router from "next/router";
-import useSWR from "swr";
 import HomeLayout from "../HomeLayout";
+import { useAuth } from "../../../context/authContext";
 import style from "./Editprofile.module.css";
 
-const getData = async (url) => cookie.get(url);
-
 function EditProfile() {
-  const { data } = useSWR("profile", getData);
-  let user = data ? JSON.parse(data) : "";
-  
-  const [ profile, setProfile ] = useState(user)
+  const { user } = useAuth();
+  const [ profile, setProfile ] = useState({})
   const [ isLoading, setIsLoading ] = useState(false)
   const fileInput = useRef(null);
 
@@ -86,10 +82,15 @@ function EditProfile() {
       { path: "/" }
     );
 
-    setIsLoading(false)
+    // setIsLoading(false)
     alert("Profile updated")
     router.push("/home")
   }
+  
+
+  useEffect(() => {
+    setProfile({...user})
+  }, [user])
 
   return (
     <div className="homeWrapper">
@@ -105,7 +106,7 @@ function EditProfile() {
               required
               name="username"
               disabled
-              value={profile.username}
+              defaultValue={profile.username}
             /> 
           </div>   
           

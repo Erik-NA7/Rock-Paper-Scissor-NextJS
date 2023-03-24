@@ -1,22 +1,18 @@
 import HomeLayout from "../HomeLayout";
 import style from "./Gamelist.module.css";
-import cookie from "js-cookie";
 import { useRouter } from "next/router";
-import useSWR from "swr";
+import { useAuth } from "../../../context/authContext";
 import fire from "../../../controller/firebase"
-
-const getData = (url) => cookie.get(url)
 
 function GameList({ games }) {
   const router = useRouter()
-  const { data } = useSWR("profile", getData)
-  const user = data ? JSON.parse(data) : null
+  const { isAuthenticated, user } = useAuth(); 
+
   const playgame = () => {
-    if (!user) {
+    if (!isAuthenticated) {
       alert("Login to play")
       router.push("/login")
-    }
-    if (user) {
+    } else {
       router.push("/home/playrps")
     }
   }

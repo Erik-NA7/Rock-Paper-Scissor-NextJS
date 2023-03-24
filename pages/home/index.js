@@ -1,14 +1,15 @@
-import React from "react";
+import { useEffect, useState } from "react";
 import HomeLayout from "./HomeLayout";
 import cookie from "js-cookie";
-import useSWR from "swr";
+import { useAuth } from "../../context/authContext";
 
-const getData = async (url) => cookie.get(url);
 
 function Home() {
-  const { data } = useSWR("profile", getData)
-  const user = data ? JSON.parse(data) : null
-
+  
+  const [greeting, setGreeting ] = useState("");
+  
+  const { isAuthenticated, user } = useAuth(); 
+  
   const GameHistory = () => {
     const lastGame = cookie.get("lastGame")
     if (lastGame) {
@@ -20,12 +21,19 @@ function Home() {
     }
   }
 
+  useEffect(() => {
+    if (isAuthenticated) {
+      setGreeting(user.username);
+    } else {
+      setGreeting("Visitor");
+    }
+  }, [isAuthenticated, user.username])
+
   return (
       <div className="homeWrapper">
         <div className="home-welcome">
-          { user ? (<h2>Welcome, {user.username}</h2>) 
-          : (<h2>Welcome, Visitor</h2>)}
-          <GameHistory/>
+        <h2>Welcome, {greeting}</h2> 
+        <GameHistory/>
         </div>
       </div>
   );

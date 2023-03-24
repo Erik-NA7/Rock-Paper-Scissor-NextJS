@@ -1,25 +1,19 @@
 import HomeLayout from "../HomeLayout";
 import React, { useEffect, useState } from "react";
 import PlayButtons from "./PlayButtons";
-import { comPlay, Result, updateScore } from "../../../controller/GameController"
+import { comPlay, Result, updateScore } from "../../../controller/GameController";
+import { useAuth } from "../../../context/authContext";
 import cookie from "js-cookie";
-import useSWR from "swr";
 import Link from "next/link";
 import Image from "next/image";
 import style from "./PlayRPS.module.css";
 
-
-const getData = (url) => cookie.get(url)
-
-
 function PlayRPS() {
-  const { data } = useSWR("profile", getData);
+  const { user, updateTotalScore } = useAuth();
   const playerButton = style["player-button"];
   const comButton = style["com-button"];
 
   // Player scoreboard
-  const [ username, setUsername ] = useState("");
-  const [ avatar, setAvatar ] = useState("")
   const [ totalScore, setTotalScore ] = useState(0);
   const [ winStreak, setWinStreak ] = useState(0)
   const [ points, setPoints ] = useState(0)
@@ -92,7 +86,8 @@ function PlayRPS() {
     pointsThisRound = 1000 + extraPoints;
     setPoints(pointsThisRound);
     setTotalScore(totalScore + pointsThisRound);
-    updateScore(username, totalScore + pointsThisRound);
+    updateScore(user.username, totalScore + pointsThisRound);
+    updateTotalScore(totalScore + pointsThisRound);
   }
 
   const addComScore = () => {
@@ -177,26 +172,18 @@ function PlayRPS() {
   }
 
   const quitButton = () => {
-    const user = JSON.parse(data);
     if (user.total_score != totalScore ) {
-    cookie.set(
-      "lastGame",
-      (totalScore - user.total_score),
-      { path: "/"}
-    )
-    user.total_score = totalScore
-    cookie.set("profile", JSON.stringify(user)) 
+      cookie.set(
+        "lastGame",
+        (totalScore - user.total_score),
+        { path: "/"}
+      )
     }
   }
 
   useEffect(() => {
-    const user = data ? JSON.parse(data) : null
-    if (user) {
-      setTotalScore(user.total_score);
-      setUsername(user.username);
-      setAvatar(user.avatar)
-    }
-  }, [data, avatar])
+    setTotalScore(user.total_score);
+  }, [user])
 
   return (
     <div className="homeWrapper">
@@ -204,17 +191,16 @@ function PlayRPS() {
       <h3>ROCK PAPER SCISSORS</h3>
       <div className={style.gameboard}>
         <div className={style.score}>
-          { avatar? (
-          <div>
-            <Image src={avatar} width={60} height={60} alt="avatar"/>
-          </div>) : (
-            null
-          )}
+          { user.avatar &&
+            <div>
+              <Image src={user.avatar} width={60} height={60} alt="avatar"/>
+            </div>
+          }
           <p className={style["score-label"]}>This Round: {points}</p>
           <p className={style["score-label"]}>Win Streak: {winStreak}</p>
         </div>
         <PlayButtons
-          username={username}
+          username={user.username}
           plRock={plRock}
           plRockClick={plRockClick}
           plPaper={plPaper}

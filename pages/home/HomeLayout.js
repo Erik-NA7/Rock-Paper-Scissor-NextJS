@@ -1,25 +1,23 @@
-import Sidebar from "../components/Sidebar";
-import User from "../../controller/UserController";
-import cookie from "js-cookie";
-import useSWR from "swr";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
+import { useAuth } from "../../context/authContext";
 import { CgProfile } from "react-icons/cg";
 import { RiArrowDownSFill } from "react-icons/ri";
-import { useRouter } from "next/router";
-
-const getData = async (url) => cookie.get(url)
+import User from "../../controller/UserController";
+import Sidebar from "../../components/Sidebar";
 
 function HomeLayout({ children }) {
-  const { data } = useSWR("profile", getData)
   const router = useRouter();
-  const user = data ? JSON.parse(data) : {
-    username: "Visitor",
-    total_score: 0
-  };
-  
+  const { user } = useAuth();
+  const [totalScore, setTotalScore ] = useState(0);
   const logout = async () => {
     await User.logOut()
     .then(() => router.push("/"))
   }
+
+  useEffect(() => {
+    setTotalScore(user.total_score);
+  }, [user])
 
   return (
     <>
@@ -28,14 +26,14 @@ function HomeLayout({ children }) {
           <div className="navIconProfile">
             <CgProfile/>
             <RiArrowDownSFill/>
-            <Sidebar user={user} onLogout={logout}/>
+            <Sidebar onLogout={logout}/>
           </div>
           <div>{user.username} |</div>
-          <div className="totalScores">Score: {user.total_score}</div>
+          <div className="totalScores">Score: {totalScore}</div>
         </div>
       </div>
       <div className="homeContainer">
-      {children}
+        {children}
       </div>
     </>
   );

@@ -1,8 +1,8 @@
 import Link from "next/link";
 import loadable from "@loadable/component";
-import style from "./components/LandingPage.module.css";
-const TopNavbar = loadable(() => import("./components/Topnavbar"));
-const VideoPlayer = loadable(() => import("./components/VideoPlayer"));
+import style from "../components/LandingPage.module.css";
+const TopNavbar = loadable(() => import("../components/Topnavbar"));
+const VideoPlayer = loadable(() => import("../components/VideoPlayer"));
 
 export default function LandingPage() {
 

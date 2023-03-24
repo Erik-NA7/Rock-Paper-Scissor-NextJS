@@ -1,21 +1,16 @@
 import Link from "next/link";
-import cookie from "js-cookie";
-import User from "../../controller/UserController";
+import User from "../controller/UserController";
 import { useRouter } from "next/router";
-import useSWR from "swr";
 import { FaBars, FaWindowClose } from "react-icons/fa";
 import style from "./Topnavbar.module.css";
 import { useState } from "react";
-
-const getData = (url) => cookie.get(url)
+import { useAuth } from "../context/authContext";
 
 function Navbar() {
-  const { data }  = useSWR("profile", getData)
-  const email = cookie.get("email");
-  const user = email || data ? true : null;
+  const { isAuthenticated } = useAuth();
   const router = useRouter();
 
-  const [ navIsMobile, setNavIsMobile ] = useState(false)
+  const [ navIsMobile, setNavIsMobile ] = useState(false);
   
   const navToggle = () => {
     setNavIsMobile(!navIsMobile)
@@ -31,7 +26,7 @@ function Navbar() {
   const NavButton = () => {
     return (
       <div className={navButtonStyle}>
-      { user ? ( 
+      { isAuthenticated ? ( 
         <button className={style["nav-button"]} onClick={handleLogout}>Logout</button>   
       ) : (
       <>

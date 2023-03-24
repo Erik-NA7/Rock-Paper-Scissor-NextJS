@@ -4,16 +4,17 @@ import style from "./Authpage.module.css";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import cookie from "js-cookie";
+// import { useAuth } from "../context/authContext";
 
 function Login() {
+  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const router = useRouter();
+  // const { contextLogin } = useAuth();
 
   const handleLogin = async () => {
     try {
       const { user } = await User.logIn(email, password);
-      console.log(user)
       if (!user.displayName) {
         cookie.set("email", email, {path: "/"})
         alert("Please update your profile")
